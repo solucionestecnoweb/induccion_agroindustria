@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+       <!-- Wizard para imprimir reporte comprobante 1007-->
+      <record id="view_libro_diario" model="ir.ui.view">
+       	    <field name="name">Reporte Mov. Moneda local a extranjera</field>
+            <field name="model">wizard.movi.extra</field>
+    	    <field name="arch" type="xml">
+
+    	    	<form string="Reporte Mon Local a Extranjera">
+                     <group colspan="8" col="4">
+                         
+                         <field name="date_from" string="Fecha Desde" required="1"/>
+                         <field name="date_to"  string="Fecha Hasta" required="1"/>
+                                                                          
+                     </group> 
+                     <group colspan="8" col="4">
+                      <field name="moneda_id" string="Moneda extranjera de conversión"/>
+                     </group>                  
+                     
+	                <footer>
+	                   <button name="print_reporte_conversion" string="Generar Reporte" type="object" class="oe_highlight" />                  
+	                   <button special="cancel" string="Cancel" class="oe_highlight" />
+	                </footer>
+                </form>
+
+    	    </field>
+      </record>
+
+      <record id="action_report_wizard_1" model="ir.actions.act_window">
+        	<field name="name">wizard Reporte Edo Financieros</field>
+        	<field name="res_model">wizard.movi.extra</field>
+        	<field name="view_mode">form</field>
+        	<field name="view_id" ref="view_libro_diario"/>
+        	<field name="target">new</field>
+      </record>
+
+      <menuitem 
+        id="menu_mon_extranjera" 
+        name="Reportes Mon Extranjeras"
+        parent="account_accountant.menu_accounting" 
+    />
+
+      <menuitem
+        id="menu_libro_diario"
+        parent="menu_mon_extranjera"
+        name="Reporte Conversión"
+		    sequence="12"
+        action="action_report_wizard_1"/>
+
+    </data>
+</odoo>
