@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="mrp_routing_inherit" model="ir.ui.view">
+            <field name="name">mrp.routing.inherit</field>
+            <field name="model">mrp.routing</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='name']" position="after">
+                    <field name="stock_location_id" string="Ubicación de Origen de los Huevos" domain="[('ubicacion_final', '=',True)]"/>
+                </xpath>               
+                
+            </field>
+        </record>
+
+        <record id="mrp_routing_inherit_tree" model="ir.ui.view">
+            <field name="name">mrp.routing.inherit.tree</field>
+            <field name="model">mrp.routing</field>
+            <field name="inherit_id" ref="mrp.mrp_routing_tree_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="stock_location_id" string="Ubicación de Origen de los Huevos"/>
+                </xpath>               
+                
+            </field>
+        </record>
+
+    </data>
+</odoo> 
+<!--xpath expr="//field[@name='name']" position="before"-->
