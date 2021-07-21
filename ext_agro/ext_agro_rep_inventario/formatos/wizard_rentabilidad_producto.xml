@@ -13,6 +13,7 @@
                          
                          <field name="date_from" string="Fecha Desde" required="1"/>
                          <field name="date_to"  string="Fecha Hasta" required="1"/>
+                         <field name="categoria_id" string="Categoría Producto"/>
                                                                           
                      </group>                   
                      

@@ -53,6 +53,8 @@ class WizardReport_3(models.TransientModel): # aqui declaro las variables del wi
     date_actual = fields.Date(default=lambda *a:datetime.now().strftime('%Y-%m-%d'))
 
     company_id = fields.Many2one('res.company','Company',default=lambda self: self.env.user.company_id.id)
+    categoria_id=fields.Many2one('product.category',default=58)
+
     line  = fields.Many2many(comodel_name='rentabilidad.producto.pdf', string='Lineas')
 
     def rif(self,aux):
@@ -122,7 +124,7 @@ class WizardReport_3(models.TransientModel): # aqui declaro las variables del wi
         t=self.env['rentabilidad.producto.pdf']
         d=t.search([])
         d.unlink()
-        cursor_categoria = self.env['product.category'].search([('parent_id','=',58)])
+        cursor_categoria = self.env['product.category'].search([('parent_id','=',self.categoria_id.id)])#
         #raise UserError(_('cursor_resumen: %s')%cursor_categoria)
         if cursor_categoria:
             for cat in cursor_categoria:
