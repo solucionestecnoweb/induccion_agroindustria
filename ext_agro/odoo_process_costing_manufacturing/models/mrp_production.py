@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from odoo import api, fields, models
+class ProductTemplete(models.Model):
+  _inherit= 'product.template'
+
+  moneda_cost = fields.Many2one('res.currency')
+  list_price = fields.Float()
 
 class MrpProduction(models.Model):
     _inherit = 'mrp.production'
@@ -187,14 +192,15 @@ class MrpProduction(models.Model):
         #readonly=True
     )"""
     
-    precio_venta = fields.Float(string="Precio de venta Producto", compute='_compute_precio_venta')
+    precio_venta = fields.Float(string="Precio de venta Producto", compute='_compute_precio_venta')#darrell
 
-    @api.depends('final_total_cost')
+    @api.depends('final_total_cost')#darrell
     def _compute_precio_venta(self):
       for rec in self:
         rec.precio_venta=rec.unit_cost+(rec.unit_cost*rec.company_id.porcentaje_ganancia/100)
         rec.product_id.list_price=rec.unit_cost+(rec.unit_cost*rec.company_id.porcentaje_ganancia/100)
         rec.product_id.standard_price=rec.unit_cost
+        rec.product_id.moneda_cost=rec.custom_currency_id.id
         #rec.product_id.=rec.custom_currency_id.id
 
     #@api.multi

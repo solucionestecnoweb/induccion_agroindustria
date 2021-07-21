@@ -13,14 +13,16 @@
     'website': 'http://soluciones-tecno.com/',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','account','purchase','sale','stock','mrp'],
+    'depends': ['base','account','purchase','sale','stock','mrp','odoo_process_costing_manufacturing'],
 
     # always loaded
     'data': [
         'formatos/vale_entrega.xml',
         'formatos/wizard_resumen_semanal_produccion.xml',
+        'formatos/wizard_rentabilidad_producto.xml',
         'formatos/stock_location_inherit_view.xml',
         'formatos/reporte_resumen_semanal_produccion.xml',
+        'formatos/reporte_rentabilidad.xml',
         'formatos/product_template_inherit.xml',
         'formatos/mrp_routing_inherit.xml',
         'security/ir.model.access.csv',
