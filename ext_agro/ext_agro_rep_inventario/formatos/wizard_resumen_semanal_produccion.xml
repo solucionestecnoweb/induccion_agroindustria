@@ -13,7 +13,7 @@
                          
                          <field name="date_from" string="Fecha Desde" required="1"/>
                          <field name="date_to"  string="Fecha Hasta" required="1"/>
-                         <field name="uom_id"  string="Unidad de medida" required="1"/>
+                         <field name="uom_id"  string="Unidad de medida" required="1" domain="[('mostrar_reporte', '=', True)]"/>
                                                                           
                      </group>                   
                      

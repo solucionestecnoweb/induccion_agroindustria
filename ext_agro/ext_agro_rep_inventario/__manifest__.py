@@ -25,6 +25,7 @@
         'formatos/reporte_rentabilidad.xml',
         'formatos/product_template_inherit.xml',
         'formatos/mrp_routing_inherit.xml',
+        'formatos/uom_uom_inherit.xml',
         'security/ir.model.access.csv',
         #'formatos/solicitud_ventas.xml',
         #'formatos/pedido_venta.xml',
