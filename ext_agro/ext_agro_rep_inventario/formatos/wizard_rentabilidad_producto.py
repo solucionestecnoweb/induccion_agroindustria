@@ -128,7 +128,7 @@ class WizardReport_3(models.TransientModel): # aqui declaro las variables del wi
         #raise UserError(_('cursor_resumen: %s')%cursor_categoria)
         if cursor_categoria:
             for cat in cursor_categoria:
-                cursor_producto = self.env['product.template'].search([('categ_id','=',cat.id)])
+                cursor_producto = self.env['product.template'].search([('categ_id','=',cat.id),('sale_ok','=',True)])
                 if cursor_producto:
                     for det in cursor_producto:
                         total_ventas=self.det_venta(det.id)
