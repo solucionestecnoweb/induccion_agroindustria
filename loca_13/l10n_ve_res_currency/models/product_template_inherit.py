@@ -22,7 +22,8 @@ class Productos(models.Model):
                         self.list_price_comp=precio_actualizado
                         self.list_price=precio_actualizado
                 else:
-                    raise ValidationError(_('Debe colocar Una tasa de conversion para esta moneda. Vaya a contabilidad-->configuracion-->Monedas y coloque la tasa'))
+                    self.list_price_comp=0
+                    #raise ValidationError(_('Debe colocar Una tasa de conversion para esta moneda. Vaya a contabilidad-->configuracion-->Monedas y coloque la tasa'))
             if self.list_price2>0 and not self.moneda_divisa_venta:
                  raise ValidationError(_('Debe seleccionar una moneda de divisa'))
         if self.habilita_precio_div!=True:
