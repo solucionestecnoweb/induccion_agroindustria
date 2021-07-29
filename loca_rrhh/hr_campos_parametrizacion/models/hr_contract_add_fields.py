@@ -95,4 +95,4 @@ class Contract(models.Model):
     check_BOFAFRA = fields.Boolean(default=True)
     ########################33 CAMPO PARA LOS CESTA TICKET ###############################
     cesta_ticket_check = fields.Boolean(default=True, string="Cesta Ticket Bs/Mes")
-    cesta_ticket_value = fields.Float(default=30)
+    cesta_ticket_value = fields.Float(default=3000000)

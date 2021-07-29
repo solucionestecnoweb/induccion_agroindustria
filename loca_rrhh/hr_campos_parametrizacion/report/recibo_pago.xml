@@ -144,7 +144,7 @@
                     <t t-call="account.report_invoice_document_with_payments" t-lang="lang"/-->
 
     <report
-            id="payslip_orden_compra"
+            id="payslip_recibo_nom"
             model="hr.payslip"
             string="Recibo de Pago Nómina"
             report_type="qweb-pdf"

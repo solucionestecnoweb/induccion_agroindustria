@@ -36,6 +36,7 @@ class hr_special_days(models.Model):
     holydays = fields.Integer('Dias Festivos', compute='_compute_days', readonly=True)
     hollydays_str = fields.Integer('Feriados Trabajados', compute='_compute_feriados_laborados')
     days_attended = fields.Integer(string='Días asistidos', compute='_compute_days_attended')
+    days_inasisti = fields.Integer(string='Dias Inasistidos', compute='_compute_days_inasisti')#odoo 14
 
     horas_extras_diurnas = fields.Float(compute='_compute_horas_extras_diurnas')
     horas_extras_nocturnas = fields.Float()
@@ -157,6 +158,18 @@ class hr_special_days(models.Model):
                     nro_asis=nro_asis+1
             selff.days_attended=nro_asis
             #self.days_attended=69
+
+    #odoo 14
+    @api.depends('date_from','date_to')
+    def _compute_days_inasisti(self):
+        for selff in self:
+            dias_descontar=0
+            verifica=selff.env['hr.leave'].search([('employee_id','=',selff.employee_id.id),('state','=','validate'),('request_date_to','<=',selff.date_to),('request_date_from','>=',selff.date_from)])
+            #raise UserError(_('verifica= %s')%verifica)
+            if verifica:
+                for det in verifica:
+                    dias_descontar=dias_descontar+det.number_of_days
+            selff.days_inasisti=dias_descontar
 
     @api.depends('date_from','date_to','employee_id')
     def _compute_feriados_laborados(self):

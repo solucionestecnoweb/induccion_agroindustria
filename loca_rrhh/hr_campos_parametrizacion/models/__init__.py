@@ -11,3 +11,5 @@ from . import hr_prestaciones
 from . import hr_payroll_structure_inherit
 from . import uniformes
 from . import hr_incremento
+from . import hr_salary_rule_inherit
+from . import hr_leave_inherit

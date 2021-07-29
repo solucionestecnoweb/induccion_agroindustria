@@ -27,6 +27,7 @@
                         <field name="saturdays"/>
                         <field name="sundays"/>
                         <field name="days_attended" readonly="1" invisible="0"/>
+                        <field name="days_inasisti" readonly="1" invisible="0"/>
                         <field name="monto_bono_alimenticio" invisible="1"/>
                         </group>
                     </group>

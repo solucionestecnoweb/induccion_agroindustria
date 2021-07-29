@@ -114,7 +114,7 @@
                                 <div>
                                     <div class="address_format">
                                         <field name="ausencias_ded_check" style="width: 15%%"/>
-                                        <field name="ausencias_ded_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('ausencias_ded_check', '!=', True)]}"/>
+                                        <!--field name="ausencias_ded_value" class="oe_no_button" style="width: 65%%" attrs="{'invisible': [('ausencias_ded_check', '!=', True)]}"/-->
                                     </div>
                                 </div>
                                 <label for= "dcto_sso_check" string="Descuento Seguro Social Obligatorio"/>

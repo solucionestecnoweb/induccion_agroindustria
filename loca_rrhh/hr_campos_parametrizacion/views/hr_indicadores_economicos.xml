@@ -35,7 +35,7 @@
             id="view_hr_payroll_indicadores_menu"
             parent="hr_payroll.menu_hr_payroll_configuration"
             name="Indicadores Económicos"
-            sequence="91"
+            sequence="94"
             action="act_hr_indicadores_tree"/>
     </data>
 </odoo>
