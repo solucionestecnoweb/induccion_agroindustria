@@ -18,7 +18,7 @@
     # always loaded ...
     'data': [
         'views/res_currency_rate_inherit_.xml',
-        #'views/product_templete_inherit.xml',
+        'views/product_templete_inherit.xml',
 
     ],
     # only loaded in demonstration mode
