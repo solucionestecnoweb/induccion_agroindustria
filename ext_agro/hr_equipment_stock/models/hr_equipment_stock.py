@@ -10,7 +10,7 @@ from odoo.exceptions import Warning
 class HrEquipmentRequest(models.Model):
     _inherit = 'maintenance.request'
 
-    @api.onchange('employee_id')
+    #@api.onchange('employee_id')
     def onchange_employee_id(self):
         self.custom_location_id = self.employee_id.department_id.custom_location_id.id
 
