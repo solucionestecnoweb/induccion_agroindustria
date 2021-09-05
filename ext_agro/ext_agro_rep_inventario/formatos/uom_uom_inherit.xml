@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="uom_inherit" model="ir.ui.view">
+            <field name="name">uom.inherit</field>
+            <field name="model">uom.uom</field>
+            <field name="inherit_id" ref="uom.product_uom_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='rounding']" position="after">
+                    <field name="mostrar_reporte" string="Activar en reporte de producción semanal?"/>
+                </xpath>               
+                
+            </field>
+        </record>
+
+
+    </data>
+</odoo> 
+<!--xpath expr="//field[@name='name']" position="before"-->

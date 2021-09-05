@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>    
+    <record id="paperformat_rentabilidad" model="report.paperformat">
+
+      <field name="default" eval="True"/>
+        <field name="name">A4 produccion semanal</field>
+        <field name="default" eval="True"/>
+        <field name="format">custom</field>
+        <field name="page_height">220</field>
+        <field name="page_width">280</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">52</field>
+        <field name="margin_bottom">5</field>
+        <field name="margin_left">5</field>
+        <field name="margin_right">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">35</field>
+        <field name="dpi">96</field>
+    </record>
+
+    <report id="renta"
+        model="wizard.rentabilidad.producto"
+        name="ext_agro_rep_inventario.rentabilidad"
+        file="ext_agro_rep_inventario.rentabilidad"
+        string="Reporte Rentabilidad"
+        report_type="qweb-html"
+        paperformat="ext_agro_rep_inventario.paperformat_rentabilidad"
+        
+        /><!--paperformat="ext_agro_rep_inventario.paperformat_resumen_semanal"-->
+
+    <template id="rentabilidad">
+
+       <t t-call="web.html_container" ><!-- realiza llamados a template propio de odoo -->
+         <t t-call="web.basic_layout" ><!-- realiza llamados a template propio de odoo -->
+          <t t-set="pag" t-value="0"/>
+          
+            <div class="header">
+                  <table width="100%">
+
+                    <tr>
+                      <td style="width:30%;text-align:center;">
+                        <t t-if="docs.company_id.logo">  
+                            <img t-attf-src="data:image/*;base64,{{docs.company_id.logo}}" style="width:auto; height:100px;"/>
+                        </t>
+                      </td>
+                      <td style="font-size:20px;">
+                        RENTABILIDAD POR  PRODUCTO TERMINADO DE AGROINDUSTRIAS DHJD, C.A.
+                      </td>
+                    </tr>
+                  </table>
+            </div>
+
+            <div class="page">
+               <table width="100%" class="table table-bordered">
+                
+                <tr style="font-size:12px;">
+                  <td>CODIGO</td>
+                  <td>PRODUCTO TERMINADO</td>
+                  <td>CANTIDAD</td>
+                  <td>VENTAS UDS</td>
+                  <td>COSTO USD</td>
+                  <td>% RENTABILIDAD</td>
+                  <td>%UTILIDAD</td>
+                </tr>
+                <t t-set="acum_total_venta" t-value="0"/>
+                <t t-set="acum_total_costo" t-value="0"/>
+                <t t-foreach="docs.line.sorted(key=lambda x: (x.rentabilidad),reverse=True)" t-as="o">
+                  <tr style="font-size:12px;">
+                    <td><t t-esc="o.codigo"/></td>
+                    <td><t t-esc="o.product_id.name"/></td>
+                    <td align="right"><t t-esc="o.cantidad"/></td>
+                    <td  align="right"><t t-esc="o.float_format(o.ventas)"/> <t t-esc="o.moneda"/><t t-set="acum_total_venta" t-value="acum_total_venta+o.ventas"/></td>
+                    <td align="right"><t t-esc="o.float_format(o.costo)"/> <t t-esc="o.moneda"/><t t-set="acum_total_costo" t-value="acum_total_costo+o.costo"/></td>
+                    <td align="right"><t t-esc="o.float_format(o.rentabilidad)"/>%</td>
+                    <td align="right"><t t-esc="o.float_format(o.utilidad)"/>%</td>
+                  </tr>
+                </t>
+                <tr align="right">
+                  <td colspan="3">Totales:</td>
+                  <td><t t-esc="docs.float_format2(acum_total_venta)"/></td>
+                  <td><t t-esc="docs.float_format2(acum_total_costo)"/></td>
+                  <td colspan="2"> </td>
+                </tr>
+                
+               </table>
+            </div>
+         
+         </t>
+       </t>
+
+     </template>
+  
+  </data>
+</odoo>
