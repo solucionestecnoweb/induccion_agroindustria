@@ -2,7 +2,11 @@
 <odoo>
 	
 
-   
+    <menuitem name="Caja Chica"
+            id="main_caja"
+            parent = "main_menu_caja_chica"
+            sequence='7'
+           />
     <menuitem 
         id="main_menu_caja_chica"
         name="Caja Chica"
