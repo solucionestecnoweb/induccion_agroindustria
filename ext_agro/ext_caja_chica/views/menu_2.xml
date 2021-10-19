@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="vista_from_prestamo" model="ir.ui.view">
+		<field name="name">vista.from.prestamo</field>
+		<field name="model">purchase.ext.order</field>
+		<field name="arch" type="xml">
+			<form string="Registro de Pago">
+				<header>
+
+                		<button name="aprobar" string="Registrar Pago" type="object"/>
+                		<button name="cancel" string="Cancelar" type="object"/>
+                		<!-- attrs="{'invisible': [('manual', '=',False)]}"-->
+                </header>
+                <sheet>
+                	<group name="central">
+				    <group>						
+				        <field name="cliente_id"></field>						
+				    </group>
+				    <group>
+				    	<field name="date_pago" required='1' string="Fecha de Cobro"></field>
+				    	<field name="account_journal_id" required='1' string="Diario" domain="[('type', '=', 'sale'),('tipo_doc','=','fnc')]"/>
+				    	<field name="currency_id" required='1' string="Moneda"></field>
+				    </group>
+				</group>
+
+				<notebook>
+
+        		<page string="Lineas de Pedidos">
+            		<field name="line_ids" nolabel="1" readonly="False">
+                    	<tree string="Registro de Pagos" editable="buttom">
+                    		<field name="product_id" string="Producto"/>
+	                        <field name="qty" string="Cantidad"/>
+	                        <field name="precio_unit" string="Precio unit."/>
+	                        <field name="sub_total" string="Sub Total"/>
+	                        <field name="company_currency_id_aux" invisible="1"/>
+	                        <field name="company_currency_id" invisible="1"/>
+	                        <field name="tax_ids" 
+	                        				   domain="[('type_tax_use', '=', 'sale')]"
+                                               options="{'no_create': True}"
+                                               optional="show"/> 
+	                        <!--field name="tax_ids" widget="many2many_tags"
+                                               options="{'no_create': True}"
+                                               optional="show"/--> <!--  domain="[('company_id', '=', company_id)]"-->
+	                        <field name="total" string="Total" widget='monetary' options="{'currency_field': 'company_currency_id'}"/>
+                    	</tree>
+            		</field>
+            		<group name="central" class="oe_subtotal_footer">
+            			<field name="total_base" required='1' string="Base Imponible"></field>
+            			<field name="total_impuesto" required='1' string="Impuesto"></field>
+            			<field name="total" required='1' string="Total"></field>
+            			<field name="total_adeudado"/>
+            		</group>
+        		</page>
+    			</notebook>
+    			<newline/>
+                </sheet>
+				
+			</form>
+		</field>
+	</record>
+
+    <record id="vista_tree_pago" model="ir.ui.view">
+		<field name="name">vista.tree.pago</field>
+		<field name="model">purchase.ext.order</field>
+		<field name="arch" type="xml">
+			<tree string="Registro de Pago" >
+				<field name="cliente_id"></field>
+				<field name="date_pago"></field>	
+			</tree>
+		</field>
+	</record>
+
+    <record id="caja_chica_registro" model="ir.actions.act_window">
+		<field name="name">Registro de pago cliente</field>
+		<field name="res_model">purchase.ext.order</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="vista_tree_pago"></field>
+	</record>
+
+    <menuitem name="pago"
+            id="main_pago"
+            parent = "main_caja"
+            sequence='6'
+            action="caja_chica_registro"
+           /><!-- sale.menu_sale_invoicing-->
+
+</odoo>
