@@ -6,7 +6,7 @@
     'depends': ['account', 'base','sale','sale_management'],
     'data': [
         'views/menu.xml',
-        #'views/menu_2.xml',
+        'views/menu_2.xml',
         'security/ir.model.access.csv',
         #'views/wizard_legal_ledger.xml',
         #'reports/legal_ledger_report.xml',
