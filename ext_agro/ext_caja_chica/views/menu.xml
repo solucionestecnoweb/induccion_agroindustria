@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	
+    
     <menuitem 
         id="main_menu_caja_chica"
-        name="Caja Chica"
+        name="Caja Dolar"
         web_icon="ext_caja_chica,static/description/icon.png"
     />
-
-    <menuitem name="Caja Chica"
-            id="main_caja"
-            parent = "main_menu_caja_chica"
-            sequence='7'
-           />
 </odoo>

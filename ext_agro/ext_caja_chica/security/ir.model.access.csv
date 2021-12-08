@@ -1,3 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+sale_ext_order,sale.ext.order,model_sale_ext_order,base.group_user,1,1,1,1
+sale_ext_order_line,sale.ext.order.line,model_sale_ext_order_line,base.group_user,1,1,1,1
+account_ext_move_line,account.ext.move.line,model_account_ext_move_line,base.group_user,1,1,1,1
+account_ext_payment,account.ext.payment,model_account_ext_payment,base.group_user,1,1,1,1
+resumen_estado_cuenta,resumen.estado.cuenta,model_resumen_estado_cuenta,base.group_user,1,1,1,1
 purchase_ext_order,purchase.ext.order,model_purchase_ext_order,base.group_user,1,1,1,1
 purchase_ext_order_line,purchase.ext.order.line,model_purchase_ext_order_line,base.group_user,1,1,1,1

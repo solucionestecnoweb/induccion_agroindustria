@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+	<data>
+
+		<record model="ir.ui.view" id="wizard_estado_view">
+			<field name="name">wizard.estado.view</field>
+			<field name="model">wizard.estado.cuenta</field>
+			<field name="arch" type="xml">
+				<form string="Estado de cuentas">
+					<group>
+						<field name="date_from"/>
+						<field name="date_to"/>
+					</group>
+					<footer>
+						<div class="oe_left">
+			
+							<button string="Impromir estado" name="action_generate_estado"
+								type="object"  class="oe_highlight"/>
+							<button string="Cerrar" special="cancel" type="object"
+								class="oe_link" />
+						</div>
+					</footer>
+				</form>
+			</field>
+		</record>
+
+        <!-- ACCIONES -->
+
+	    <record id="action_estado_form" model="ir.actions.act_window">
+	        <field name="name">Estado de Cuentas</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">wizard.estado.cuenta</field>
+	        <field name="view_mode">form</field>
+	        <field name="view_id" ref="wizard_estado_view"/>
+	        <field name="target">new</field>
+	    </record>
+
+
+        <!-- MENUS -->
+
+        <!-- SUB-MENU-->
+
+        <menuitem
+            id="menu_estado_cuenta"
+            name="Estado de cuentas"
+            parent="ext_caja_chica.informe_caja"
+            action="action_estado_form"
+            sequence="12"
+        />
+
+	</data>
+</odoo>

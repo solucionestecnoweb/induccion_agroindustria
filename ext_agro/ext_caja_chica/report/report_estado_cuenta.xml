@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data> 
+  
+  <template id="libro_resumen_cuenta">
+    <t t-call="web.html_container" >
+      <t t-call="web.basic_layout" >
+        <t t-foreach="docs" t-as="o">
+          <div class="header">
+            <table  width="100%"  border="1">
+              <tr>
+                <td>
+                  <strong>
+                    <h2 style="font-size:20px;"> <small><t t-esc="o.company_id.name"/>
+                    <br/> RIF:<t t-esc="o.company_id.partner_id.vat"/>
+                    </small></h2>
+                  </strong>
+                </td>
+                
+                <td>
+                  <div align="right">
+                  <small>
+                    FECHA DESDE: <t t-esc="o.formato_fecha(o.date_from)"/>
+                  </small>
+                  </div>
+                  <br/>
+                  <div align="right">
+                  <small>
+                    FECHA HASTA: <t t-esc="o.formato_fecha(o.date_to)"/>
+                  </small>
+                  </div>
+                </td>
+                
+              </tr>
+              <tr>
+                <td>
+                  Saldo Disponible en Caja($): <t t-esc="o.float_format2(o.saldo_uds)"/>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <div class="page">
+            <table width="100%"  class="table table-condensed ">
+              <tbody class="table table-bordered">
+                <tr>
+                  <td colspan="6" align="center">
+                    <h3>Consulta de Movimientos</h3>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Fecha</td>
+                  <td>Referencia</td>
+                  <td>Descripción</td>
+                  <td>Débito/Crédito</td>
+                  <td>Monto ($)</td>
+                  <td>Monto (Bs)</td>
+                </tr>
+              </tbody>
+              <t t-set="acum_bs" t-value="0"/>
+              <t t-set="acum_uds" t-value="0"/>
+              <t t-foreach="o.line.sorted(key=lambda x: (x.fecha,x.id),reverse=True)" t-as="line" >
+                <tbody class="table table-bordered">
+                  <tr>
+                    <td><t t-esc="line.formato_fecha2(line.fecha)"/></td>
+                    <td><t t-esc="line.referencia"/></td>
+                    <td><t t-esc="line.descripcion"/></td>
+                    <td><t t-esc="line.tipo"/></td>
+                    <td><t t-esc="line.float_format(line.monto_uds)"/><t t-set="acum_uds" t-value="acum_uds+line.monto_uds"/></td>
+                    <td><t t-esc="line.float_format(line.monto_bs)"/><t t-set="acum_bs" t-value="acum_bs+line.monto_bs"/></td>
+                  </tr>
+                </tbody>
+              </t>
+              <tbody class="table table-bordered">
+                <tr>
+                  <td colspan="4" align="right">
+                    Total:
+                  </td>
+                  <td>
+                    <t t-esc="o.float_format2(acum_uds)"/>
+                  </td>
+                  <td>
+                    <t t-esc="o.float_format2(acum_bs)"/>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </t>
+      </t>
+    </t>
+  </template>
+
+  <report id="libr_resumen_cuenta"
+        model="wizard.estado.cuenta"
+        name="ext_caja_chica.libro_resumen_cuenta"
+        file="ext_caja_chica.libro_resumen_cuenta"
+        string="Reporte Resumen Estado Cuenta"
+        report_type="qweb-html"
+        /><!-- paperformat="l10n_ve_resumen_retenciones.paperformat_resumen_iva" -->
+  
+  </data>
+</odoo>

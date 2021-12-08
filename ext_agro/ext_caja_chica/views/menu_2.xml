@@ -1,33 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-<record id="vista_from_prestamo" model="ir.ui.view">
-		<field name="name">vista.from.prestamo</field>
-		<field name="model">purchase.ext.order</field>
+<record id="vista_from_venta" model="ir.ui.view">
+		<field name="name">vista.from.venta</field>
+		<field name="model">sale.ext.order</field>
 		<field name="arch" type="xml">
-			<form string="Registro de Pago">
+			<form string="Registro de Venta">
 				<header>
+						<field name="state" widget="statusbar" statusbar_visible="draft,posted,partial _paid,paid" readonly="True"/>
+                		<button name="aprobar" string="Confirmar Venta" type="object" attrs="{'invisible': [('state', '!=','draft')]}"/>
+                		<button name="pagar" string="Registrar Pago" type="object" attrs="{'invisible': ['|',('state', '=','draft'),('state','=','paid')]}"/>
 
-                		<button name="aprobar" string="Registrar Pago" type="object"/>
                 		<button name="cancel" string="Cancelar" type="object"/>
                 		<!-- attrs="{'invisible': [('manual', '=',False)]}"-->
                 </header>
                 <sheet>
                 	<group name="central">
-				    <group>						
-				        <field name="cliente_id"></field>						
+				    <group>	
+				    	<field name="name" attrs="{'readonly': [('state', '!=','draft')]}" string="Nro Transacción: "/>					
+				        <field name="cliente_id" attrs="{'readonly': [('state', '!=','draft')]}"></field>
+				        <field name="company_id" readonly="1"/>						
 				    </group>
 				    <group>
-				    	<field name="date_pago" required='1' string="Fecha de Cobro"></field>
-				    	<field name="account_journal_id" required='1' string="Diario" domain="[('type', '=', 'sale'),('tipo_doc','=','fnc')]"/>
-				    	<field name="currency_id" required='1' string="Moneda"></field>
+				    	<field name="date_pago" required='1' string="Fecha de Venta" attrs="{'readonly': [('state', '!=','draft')]}"></field>
+				    	<field name="account_journal_id" required='1' string="Diario" domain="[('type', '=', 'sale'),('tipo_doc','=','fnc')]" attrs="{'readonly': [('state', '!=','draft')]}"/>
+				    	<field name="currency_id" required='1' string="Moneda" attrs="{'readonly': [('state', '!=','draft')]}"></field>
+				    	<field name="tasa" string="Tasa" attrs="{'readonly': [('state', '!=','draft')]}"/>
 				    </group>
 				</group>
 
 				<notebook>
 
-        		<page string="Lineas de Pedidos">
-            		<field name="line_ids" nolabel="1" readonly="False">
+        		<page name="lineas_pedidos" string="Lineas de Pedidos">
+            		<field name="line_ids" nolabel="1" readonly="False" attrs="{'readonly': [('state', '!=','draft')]}">
                     	<tree string="Registro de Pagos" editable="buttom">
                     		<field name="product_id" string="Producto"/>
 	                        <field name="qty" string="Cantidad"/>
@@ -60,29 +65,93 @@
 		</field>
 	</record>
 
-    <record id="vista_tree_pago" model="ir.ui.view">
-		<field name="name">vista.tree.pago</field>
-		<field name="model">purchase.ext.order</field>
+	<record id="vista_from_pago_cli" model="ir.ui.view">
+		<field name="name">vista.from.pago_cli</field>
+		<field name="model">account.ext.payment</field>
 		<field name="arch" type="xml">
-			<tree string="Registro de Pago" >
+			<form string="Registro de Pago Clientes">
+				<header>
+						<field name="state" widget="statusbar" statusbar_visible="draft,paid" readonly="True"/>
+                		<button name="pagar" string="Registrar Pago" type="object" attrs="{'invisible': [('state','=','paid')]}"/>
+                		<!--button name="cancel" string="Cancelar" type="object"/-->
+                		<!-- attrs="{'invisible': [('manual', '=',False)]}"-->
+                </header>
+                <sheet>
+                	<group name="central">
+					    <group>	
+					    	<field name="name" string="Nro de Transacción" readonly="1"/>
+					    	<field name="tipo" string="Tipo de operación" widget="radio" attrs="{'readonly': [('state', '!=','draft')]}"/>
+					    	<field name="company_id" string="Compañia" readonly="1"/>
+					    	<field name="account_journal_id" string="Diario" domain="[('type', '=', 'sale'),('tipo_doc','=','fnc')]" attrs="{'readonly': [('state', '!=','draft')]}"/>	
+					    	<field name="sale_ext_order_id" string="Nro de venta Cliente" attrs="{'readonly': [('state', '!=','draft')],'invisible': [('tipo', '!=','entry')]}" domain="['|',('state', '=', 'posted'),('state', '=', 'partial _paid')]"/>	
+					    	<field name="purchase_ext_order_id" string="Nro de compra proveedor" attrs="{'readonly': [('state', '!=','draft')],'invisible': [('tipo', '!=','egress')]}" domain="['|',('state', '=', 'posted'),('state', '=', 'partial _paid')]"/>
+					    	<div class="address_format">
+					    		<h5>Monto adeudado</h5>
+						    	<field name="monto_pendiente"/>	
+						    	<field name="moneda_venta" readonly="1"/>	
+					    	</div>		
+					    </group>
+					    <group>
+					    	<field name="fecha" string="Fecha de pago" attrs="{'readonly': [('state', '!=','draft')]}"/>
+					    	<field name="monto" string="Monto a cancelar" attrs="{'readonly': [('state', '!=','draft')]}"/>
+					    	<field name="monto_signed" invisible="1"/>
+					    	<field name="currency_id" string="Moneda" attrs="{'readonly': [('state', '!=','draft')]}"/>
+					    	<field name="tasa" attrs="{'readonly': [('state', '!=','draft')]}"/>
+					    </group>
+					</group>
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+    <record id="vista_tree_venta" model="ir.ui.view">
+		<field name="name">vista.tree.venta</field>
+		<field name="model">sale.ext.order</field>
+		<field name="arch" type="xml">
+			<tree string="Registro de venta" >
+				<field name="name" string="Nro Transacción"/>
 				<field name="cliente_id"></field>
-				<field name="date_pago"></field>	
+				<field name="date_pago" string="Fecha Registro"></field>
+				<field name="tasa" string="Tasa"/>	
+				<field name="total_signed" string="Total (Bs)"/>
+				<field name="total_signed_uds" string="Total ($)"/>
+				<field name="state" string="State"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="vista_tree_pago_cli" model="ir.ui.view">
+		<field name="name">vista.tree.pago.cli</field>
+		<field name="model">account.ext.payment</field>
+		<field name="arch" type="xml">
+			<tree string="Registro de Pagos" >
+				<field name="name" string="Nro Transacción"/>
+				<field name="doc_ext_order_id" string="Descripción"/>
+				<field name="cliente_id" string="Proveedor/Cliente"/>
+				<field name="tipo" string="Tipo de Transaccion"/>
+				<field name="fecha" string="Fecha Registro"></field>
+				<field name="company_id" string="Compañia"/>
+				<field name="monto_signed" string="Monto pagado (Bs)"></field>
+				<field name="monto_signed_uds" string="Monto Pagado ($)"/>
+				<field name="state" string="Status"	/>
 			</tree>
 		</field>
 	</record>
 
     <record id="caja_chica_registro" model="ir.actions.act_window">
-		<field name="name">Registro de pago cliente</field>
-		<field name="res_model">purchase.ext.order</field>
+		<field name="name">Registro de venta cliente</field>
+		<field name="res_model">sale.ext.order</field>
 		<field name="view_mode">tree,form</field>
-		<field name="view_id" ref="vista_tree_pago"></field>
+		<field name="view_id" ref="vista_tree_venta"></field>
 	</record>
 
-    <menuitem name="pago"
-            id="main_pago"
-            parent = "main_caja"
-            sequence='6'
-            action="caja_chica_registro"
-           /><!-- sale.menu_sale_invoicing-->
+	<record id="caja_pago_cliente" model="ir.actions.act_window">
+		<field name="name">Registro de Pagos</field>
+		<field name="res_model">account.ext.payment</field>
+		<field name="view_mode">tree,form</field>
+		<field name="view_id" ref="vista_tree_pago_cli"></field>
+	</record>
+
+    
 
 </odoo>

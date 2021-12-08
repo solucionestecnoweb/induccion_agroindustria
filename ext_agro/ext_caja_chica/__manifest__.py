@@ -7,7 +7,11 @@
     'data': [
         'views/menu.xml',
         'views/menu_2.xml',
+        'views/vista_purchase.xml',
         'security/ir.model.access.csv',
+        'report/nota_entrega.xml',
+        'report/report_estado_cuenta.xml',
+        'wizard/wizard_estado_cuenta.xml',
         #'views/wizard_legal_ledger.xml',
         #'reports/legal_ledger_report.xml',
         ],

@@ -5,8 +5,13 @@ from odoo import fields,models,api,_
 import datetime
 from odoo.exceptions import UserError, ValidationError
 
-class PurchaseExtOrder(models.Model):
-    _name = 'purchase.ext.order'
+class Partners(models.Model):
+    _inherit = 'account.journal'
+
+    tipo_doc = fields.Selection([('nc', 'Nota de Credito'),('nb', 'Nota de Debito'),('fc','Factura fiscal'),('fnc','Factura No fiscal')])
+
+class SaleExtOrder(models.Model):
+    _name = 'sale.ext.order'
 
     name = fields.Char(default="/")
     cliente_id = fields.Many2one('res.partner')
@@ -14,7 +19,7 @@ class PurchaseExtOrder(models.Model):
     account_journal_id = fields.Many2one('account.journal')
     currency_id = fields.Many2one('res.currency',default=lambda self: self.env.company.currency_id.id)
     company_id = fields.Many2one('res.company','Company',default=lambda self: self.env.company.id)
-    line_ids = fields.One2many('purchase.ext.order.line', 'purchase_ext_id', string='Prestamos')
+    line_ids = fields.One2many('sale.ext.order.line', 'sale_ext_id', string='Prestamos')
     tasa = fields.Float(default=1)
     total_base =fields.Monetary(string="Base Imponible",compute='_compute_base')
     total_impuesto = fields.Monetary(string="Impuesto",compute='_compute_impuesto')
@@ -23,7 +28,7 @@ class PurchaseExtOrder(models.Model):
     total_signed_uds = fields.Monetary()
     total_adeudado = fields.Monetary(string="Importe Adeudado")
     state = fields.Selection([('draft', 'Borrador'), ('posted', 'Publicado'),('partial _paid', 'Parcialmente Pagado'),('paid', 'Totalmente Pagado')], readonly=True, default='draft', string="Status")
-    tipo = fields.Char(default="egress")
+    tipo = fields.Char(default="entry")
 
     def _compute_base(self):
         acom=0
@@ -65,7 +70,7 @@ class PurchaseExtOrder(models.Model):
         nombre: 'l10n_ve_cuenta_retencion_iva'''
 
         self.ensure_one()
-        SEQUENCE_CODE = 'secuencia_caja_dolar_proveedores'+str(self.env.company.id)
+        SEQUENCE_CODE = 'secuencia_caja_dolar'+str(self.env.company.id)
         company_id = self.env.company.id
         IrSequence = self.env['ir.sequence'].with_context(force_company=self.env.company.id)
         name = IrSequence.next_by_code(SEQUENCE_CODE)
@@ -73,8 +78,8 @@ class PurchaseExtOrder(models.Model):
         # si aún no existe una secuencia para esta empresa, cree una
         if not name:
             IrSequence.sudo().create({
-                'prefix': 'Nro: ',
-                'name': 'Localización Venezolana Caja Dolar pago proveedores %s' % self.env.company.name,
+                'prefix': 'Registro Nro: ',
+                'name': 'Localización Venezolana Caja Dolar %s' % self.env.company.name,
                 'code': SEQUENCE_CODE,
                 'implementation': 'no_gap',
                 'padding': 8,
@@ -87,7 +92,7 @@ class PurchaseExtOrder(models.Model):
     def pagar(self):
         #raise UserError(_("id factura=%s")%self.id)
         return self.env['account.ext.payment']\
-            .with_context(active_ids=self.ids, active_model='purchase.ext.order', active_id=self.id)\
+            .with_context(active_ids=self.ids, active_model='sale.ext.order', active_id=self.id)\
             .action_register_ext_payment()
 
     def doc_cedula(self,aux):
@@ -149,10 +154,10 @@ class PurchaseExtOrder(models.Model):
         resultado=valor
         return resultado
 
-class PurchaseExtOrderLine(models.Model):
-    _name = 'purchase.ext.order.line'
+class SaleExtOrderLine(models.Model):
+    _name = 'sale.ext.order.line'
 
-    purchase_ext_id = fields.Many2one('purchase.ext.order', string='Lineas de pedidos')
+    sale_ext_id = fields.Many2one('sale.ext.order', string='Lineas de pedidos')
     product_id = fields.Many2one('product.template')
     qty=fields.Float()
     precio_unit = fields.Float()
@@ -197,5 +202,5 @@ class PurchaseExtOrderLine(models.Model):
 
     def _compute_currency(self):
         for selff in self:
-            selff.company_currency_id_aux=selff.purchase_ext_id.currency_id.id
+            selff.company_currency_id_aux=selff.sale_ext_id.currency_id.id
             selff.company_currency_id=selff.company_currency_id_aux
