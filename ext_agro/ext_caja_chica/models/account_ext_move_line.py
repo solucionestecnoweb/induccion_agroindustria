@@ -36,7 +36,7 @@ class AccountExtPayment(models.Model):
     company_id = fields.Many2one('res.company','Company',default=lambda self: self.env.company.id)
     state = fields.Selection([('draft', 'Borrador'),('paid', 'Pagado')], readonly=True, default='draft', string="Status")
     account_journal_id = fields.Many2one('account.journal',string="Diario")
-    fecha=fields.Datetime(default=lambda *a:(datetime.now().strftime('%Y-%m-%d'))
+    fecha=fields.Datetime(default=lambda *a:(datetime.now() + timedelta(days=(0))).strftime('%Y-%m-%d'))
     sale_ext_order_id=fields.Many2one('sale.ext.order',string="Doc Venta")
     purchase_ext_order_id=fields.Many2one('purchase.ext.order',string="Doc Compra")
     doc_ext_order_id=fields.Char(compute='_compute_documento')
