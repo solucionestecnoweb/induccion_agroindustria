@@ -41,7 +41,7 @@
 	                        <field name="company_currency_id_aux" invisible="1"/>
 	                        <field name="company_currency_id" invisible="1"/>
 	                        <field name="tax_ids" 
-	                        				   domain="[('type_tax_use', '=', 'sale')]"
+	                        				   domain="[('type_tax_use', '=', 'purchase')]"
                                                options="{'no_create': True}"
                                                optional="show"/> 
 	                        <!--field name="tax_ids" widget="many2many_tags"

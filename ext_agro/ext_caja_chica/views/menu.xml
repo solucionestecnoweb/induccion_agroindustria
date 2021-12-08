@@ -7,14 +7,14 @@
             sequence='8'
            />
 
-    <menuitem name="Caja Dolar"
+    <menuitem name="Caja Chica"
             id="main_caja"
             parent = "main_menu_caja_chica"
             sequence='7'
            />
     <menuitem 
         id="main_menu_caja_chica"
-        name="Caja Dolar"
+        name="Caja Chica"
         web_icon="ext_caja_chica,static/description/icon.png"
     />
 </odoo>

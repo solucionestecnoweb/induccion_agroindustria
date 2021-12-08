@@ -112,6 +112,13 @@ class ResumenEstadoCuenta(models.Model):
         resultado=dia+"/"+mes+"/"+ano
         return resultado
 
+    def nb_tipo(self,valor):
+        if valor=="egress":
+            nb="Débito"
+        if valor=="entry":
+            nb="Crédito"
+        return nb
+
     def float_format(self,valor):
         if valor:
             result = '{:,.2f}'.format(valor)

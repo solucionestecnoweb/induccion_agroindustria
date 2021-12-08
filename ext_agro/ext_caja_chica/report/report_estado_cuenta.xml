@@ -64,7 +64,7 @@
                     <td><t t-esc="line.formato_fecha2(line.fecha)"/></td>
                     <td><t t-esc="line.referencia"/></td>
                     <td><t t-esc="line.descripcion"/></td>
-                    <td><t t-esc="line.tipo"/></td>
+                    <td><t t-esc="line.nb_tipo(line.tipo)"/></td>
                     <td><t t-esc="line.float_format(line.monto_uds)"/><t t-set="acum_uds" t-value="acum_uds+line.monto_uds"/></td>
                     <td><t t-esc="line.float_format(line.monto_bs)"/><t t-set="acum_bs" t-value="acum_bs+line.monto_bs"/></td>
                   </tr>

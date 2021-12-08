@@ -12,7 +12,8 @@ class PurchaseExtOrder(models.Model):
     cliente_id = fields.Many2one('res.partner')
     date_pago=fields.Datetime()
     account_journal_id = fields.Many2one('account.journal')
-    currency_id = fields.Many2one('res.currency',default=lambda self: self.env.company.currency_id.id)
+    #currency_id = fields.Many2one('res.currency',default=lambda self: self.env.company.currency_id.id)
+    currency_id = fields.Many2one('res.currency',default=2)
     company_id = fields.Many2one('res.company','Company',default=lambda self: self.env.company.id)
     line_ids = fields.One2many('purchase.ext.order.line', 'purchase_ext_id', string='Prestamos')
     tasa = fields.Float(default=1)
@@ -30,6 +31,7 @@ class PurchaseExtOrder(models.Model):
         for det in self.line_ids:
             acom=acom+det.sub_total
         self.total_base=acom
+
 
     def _compute_total(self):
         for selff in self:
