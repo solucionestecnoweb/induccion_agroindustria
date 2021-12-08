@@ -19,7 +19,8 @@ class AccountExtMoveLine(models.Model):
     monto_signed=fields.Float()
     saldo_signed=fields.Float()
     sale_ext_order_id=fields.Many2one('sale.ext.order')
-    currency_id = fields.Many2one('res.currency',default=lambda self: self.env.company.currency_id.id)
+    #currency_id = fields.Many2one('res.currency',default=lambda self: self.env.company.currency_id.id)
+    currency_id = fields.Many2one('res.currency',default=2)
     company_id = fields.Many2one('res.company','Company',default=lambda self: self.env.company.id)
     state = fields.Selection([('draft', 'Borrador'),('posted', 'Publicado')], readonly=True, default='draft', string="Status")
 
