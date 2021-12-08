@@ -152,6 +152,17 @@
 		<field name="view_id" ref="vista_tree_pago_cli"></field>
 	</record>
 
-    
+    <menuitem name="Ventas Clientes"
+            id="main_venta"
+            parent = "main_caja"
+            sequence='6'
+            action="caja_chica_registro"
+           /><!-- sale.menu_sale_invoicing-->
+    <menuitem name="Registrar Pagos"
+            id="main_pago_cli"
+            parent = "main_caja"
+            sequence='8'
+            action="caja_pago_cliente"
+           />
 
 </odoo>

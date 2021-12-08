@@ -40,7 +40,13 @@
 
         <!-- SUB-MENU-->
 
-        
+        <menuitem
+            id="menu_estado_cuenta"
+            name="Estado de cuentas"
+            parent="ext_caja_chica.informe_caja"
+            action="action_estado_form"
+            sequence="12"
+        />
 
 	</data>
 </odoo>

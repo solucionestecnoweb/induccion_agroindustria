@@ -88,6 +88,11 @@
 		<field name="view_id" ref="vista_tree_compra"></field>
 	</record>
 
-	
+	<menuitem name="Compras a Proveedores"
+            id="main_compra"
+            parent = "main_caja"
+            sequence='7'
+            action="caja_chica_proveedores"
+           />
 
 </odoo>
