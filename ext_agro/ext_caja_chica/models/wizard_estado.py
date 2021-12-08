@@ -34,7 +34,7 @@ class EstadoCuenta(models.TransientModel):
     def _compute_saldo(self):
         valor_uds=0
         valor_bs=0
-        cursor = self.env['account.ext.payment'].search([])
+        cursor = self.env['account.ext.payment'].search([('state','=','paid')])
         if cursor:
             for rec in cursor:
                 valor_uds=valor_uds+rec.monto_signed_uds
@@ -71,6 +71,7 @@ class EstadoCuenta(models.TransientModel):
         cursor_resumen = self.env['account.ext.payment'].search([
             ('fecha','>=',self.date_from),
             ('fecha','<=',self.date_to),
+            ('state','=','paid'),
             ])
         if not cursor_resumen:
             raise UserError(_('No hay nada que reportar en esta fecha'))
